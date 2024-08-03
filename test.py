@@ -1,3 +1,5 @@
 from morphrs_py import MorphAnalyzer
 
-print(MorphAnalyzer)
+morph_analyzer = MorphAnalyzer.open("test.json")
+print(morph_analyzer)
+print(morph_analyzer.path)
