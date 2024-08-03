@@ -1,0 +1,13 @@
+[package]
+name = "morphrs-py"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "morphrs_py"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = "0.22.0"
+morph-rs = { git = "https://github.com/kribrum-os/morph-rs", tag = "v0.2.0" }
