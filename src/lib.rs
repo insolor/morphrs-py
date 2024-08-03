@@ -1,8 +1,5 @@
 use morph_rs::MorphAnalyzer;
-use pyo3::{
-    prelude::*,
-    types::{PyString, PyType},
-};
+use pyo3::prelude::*;
 use std::path::Path;
 
 #[pyclass]
@@ -17,6 +14,10 @@ impl PyMorphAnalyzer {
     fn open(path: String) -> PyResult<Self> {
         let morph_analyzer = MorphAnalyzer::open(Path::new(&path)).unwrap();
         Ok(PyMorphAnalyzer { morph_analyzer })
+    }
+
+    fn parse_word(&self, word: String) -> PyResult<String> {
+        Ok(self.morph_analyzer.parse_word(&word).unwrap().to_string())
     }
 
     fn __repr__(&self) -> PyResult<String> {
