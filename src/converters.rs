@@ -1,8 +1,8 @@
-use morph_rs::{morph::grammemes::Grammem, ParsedWord, ParsedWords};
+use morph_rs::{morph::grammemes::Grammem, InflectWord, ParsedWord};
 
 use pyo3::prelude::*;
 
-use crate::py_classes::PyParsedWord;
+use crate::py_classes::{PyInflectWord, PyParsedWord};
 
 fn convert_grammem(grammem: &Grammem) -> String {
     let grammem = serde_json::to_string(&grammem).unwrap();
@@ -22,9 +22,9 @@ fn convert_parsed_word(parsed_word: ParsedWord) -> PyResult<PyParsedWord> {
     })
 }
 
-pub fn convert_parsed_words(parsed_words: ParsedWords) -> PyResult<Vec<PyParsedWord>> {
+pub fn convert_parsed_words(parsed_words: Vec<ParsedWord>) -> PyResult<Vec<PyParsedWord>> {
     let mut py_parsed_words = Vec::<PyParsedWord>::new();
-    for parsed_word in parsed_words.0 {
+    for parsed_word in parsed_words {
         let py_parsed_word = convert_parsed_word(parsed_word)?;
         py_parsed_words.push(py_parsed_word);
     }
@@ -36,6 +36,18 @@ fn convert_to_grammem(grammem: &str) -> Grammem {
     let quoted = format!("\"{}\"", grammem);
     let deserialized: Grammem = serde_json::from_str(&quoted).unwrap();
     deserialized
+}
+
+pub fn convert_to_convert_to_grammems(grammems: Vec<String>) -> Vec<Grammem> {
+    grammems.iter().map(|gram| convert_to_grammem(&gram)).collect::<Vec<Grammem>>()
+}
+
+pub fn convert_inflected_word(inflected_word: &InflectWord) -> PyInflectWord {
+    PyInflectWord {
+        word: inflected_word.word(),
+        tags: convert_tag(inflected_word.tag().into_vec()),
+        method: format!("{:?}", inflected_word.method()),
+    }
 }
 
 #[cfg(test)]
