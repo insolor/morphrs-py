@@ -59,9 +59,9 @@ pub struct PyParsedWord {
 impl PyParsedWord {
     fn __repr__(&self) -> PyResult<String> {
         Ok(format!(
-            "ParsedWord(word=\"{}\", tags=[{}], normal_form=\"{}\", method={:?})",
+            "ParsedWord(word={:?}, tags=[{}], normal_form={:?}, method={:?})",
             self.word,
-            self.tags.join(", "),
+            self.tags.iter().map(|tag| format!("{:?}", tag)).collect::<Vec<String>>().join(", "),
             self.normal_form,
             self.method
         ))
@@ -85,9 +85,9 @@ pub struct PyInflectWord {
 impl PyInflectWord {
     fn __repr__(&self) -> PyResult<String> {
         Ok(format!(
-            "InflectWord(word=\"{}\", tags=[{}], method={:?})",
+            "InflectWord(word={:?}, tags=[{}], method={:?})",
             self.word,
-            self.tags.join(", "),
+            self.tags.iter().map(|tag| format!("{:?}", tag)).collect::<Vec<String>>().join(", "),
             self.method
         ))
     }
