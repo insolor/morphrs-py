@@ -71,4 +71,6 @@ docs/_build/
 # Pyenv
 .python-version
 
+dict.zip
 dict/
+.ipynb_checkpoints/
