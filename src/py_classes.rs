@@ -13,13 +13,13 @@ pub struct PyMorphAnalyzer {
 #[pymethods]
 impl PyMorphAnalyzer {
     #[staticmethod]
-    fn open(path: String) -> PyResult<Self> {
-        let morph_analyzer = MorphAnalyzer::open(Path::new(&path)).unwrap();
+    fn open(path: &str) -> PyResult<Self> {
+        let morph_analyzer = MorphAnalyzer::open(Path::new(path)).unwrap();
         Ok(PyMorphAnalyzer { morph_analyzer })
     }
 
-    fn parse_word(&self, word: String) -> PyResult<Vec<PyParsedWord>> {
-        let parsed_words = self.morph_analyzer.parse_word(&word).unwrap();
+    fn parse_word(&self, word: &str) -> PyResult<Vec<PyParsedWord>> {
+        let parsed_words = self.morph_analyzer.parse_word(word).unwrap();
         Ok(convert_parsed_words(parsed_words).unwrap())
     }
 

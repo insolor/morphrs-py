@@ -1,9 +1,9 @@
-use morph_rs::ParsedWords;
+use morph_rs::{ParsedWord, ParsedWords};
 use pyo3::prelude::*;
 
 use crate::py_classes::PyParsedWord;
 
-fn convert_parsed_word(parsed_word: morph_rs::ParsedWord) -> PyResult<PyParsedWord> {
+fn convert_parsed_word(parsed_word: ParsedWord) -> PyResult<PyParsedWord> {
     Ok(PyParsedWord {
         word: parsed_word.word(),
         tags: parsed_word
