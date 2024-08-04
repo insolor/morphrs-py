@@ -1,5 +1,5 @@
 use morph_rs::ParsedWords;
-use pyo3::{prelude::*, types::PyList};
+use pyo3::prelude::*;
 
 use crate::py_classes::PyParsedWord;
 
@@ -16,14 +16,12 @@ fn convert_parsed_word(parsed_word: morph_rs::ParsedWord) -> PyResult<PyParsedWo
     })
 }
 
-pub fn convert_parsed_words(parsed_words: ParsedWords) -> PyResult<Py<PyList>> {
-    Python::with_gil(|py| {
-        let mut py_parsed_words = Vec::<Py<PyAny>>::new();
-        for parsed_word in parsed_words.0 {
-            let py_parsed_word = convert_parsed_word(parsed_word)?;
-            py_parsed_words.push(py_parsed_word.into_py(py));
-        }
+pub fn convert_parsed_words(parsed_words: ParsedWords) -> PyResult<Vec<PyParsedWord>> {
+    let mut py_parsed_words = Vec::<PyParsedWord>::new();
+    for parsed_word in parsed_words.0 {
+        let py_parsed_word = convert_parsed_word(parsed_word)?;
+        py_parsed_words.push(py_parsed_word);
+    }
 
-        Ok(PyList::new(py, py_parsed_words.into_iter()).into())
-    })
+    Ok(py_parsed_words)
 }

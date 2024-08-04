@@ -1,5 +1,5 @@
 use morph_rs::MorphAnalyzer;
-use pyo3::{prelude::*, types::PyList};
+use pyo3::prelude::*;
 use std::path::Path;
 
 use crate::converters::convert_parsed_words;
@@ -18,9 +18,9 @@ impl PyMorphAnalyzer {
         Ok(PyMorphAnalyzer { morph_analyzer })
     }
 
-    fn parse_word(&self, word: String) -> Py<PyList> {
+    fn parse_word(&self, word: String) -> PyResult<Vec<PyParsedWord>> {
         let parsed_words = self.morph_analyzer.parse_word(&word).unwrap();
-        convert_parsed_words(parsed_words).unwrap()
+        Ok(convert_parsed_words(parsed_words).unwrap())
     }
 
     fn __repr__(&self) -> PyResult<String> {
