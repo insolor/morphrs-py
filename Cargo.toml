@@ -9,5 +9,5 @@ name = "morphrs_py"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = "0.22.0"
+pyo3 = "0.20"
 morph-rs = { git = "https://github.com/kribrum-os/morph-rs", tag = "v0.2.0" }
